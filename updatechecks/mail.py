@@ -1,3 +1,6 @@
+"""This module is used for sending emails. It was built
+    under the assumption that localhost can send mails without
+    authentication"""
 import smtplib
 import string
 

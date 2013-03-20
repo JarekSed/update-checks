@@ -1,10 +1,16 @@
-#!/usr/bin/python2
+""" This module gets the latest version of php-mongo from pecl"""
 import urllib2
 import re
 from BeautifulSoup import BeautifulSoup
+__LATEST_KNOWN_VERSION="1.3.5"
+
+def get_last_known_version():
+    return __LATEST_KNOWN_VERSION
 
 
 def get_version():
+    """ Gets the latest version of php-mongo from pecl. Returns the version as
+    a string, or False if it can't be found"""
     url = "http://pecl.php.net/package/mongo"
     page = urllib2.urlopen(url)
 
