@@ -16,11 +16,15 @@ def get_all_modules():
 
 
 def check_all_programs():
+    """ Checks the versions of all programs we know about. This returns a list
+    of the programs that are out of date, where each item is a tuple tuple of
+    the form  (program_name, last_known_version, current_version)"""
+
+    out_of_date = []
     modules = get_all_modules()
     for module_name in modules:
         module = __import__("updatechecks.programs."+module_name,globals(),locals(), ['a'], -1)
         current_version = module.get_version()
         if parse_version(current_version) > parse_version(module.get_last_known_version()):
-            print module_name, "is out of date, newest version is", current_version
-        else:
-            print module_name, "looks good, current version is", current_version
+            out_of_date.append( (module_name, module.get_last_known_version(), current_version) )
+    return out_of_date

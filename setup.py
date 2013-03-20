@@ -8,4 +8,5 @@ setup(name='updatechecks',
       author_email='jareksedlacek@gmail.com',
       license='MIT',
       packages=['updatechecks', 'updatechecks.programs'],
+      scripts=['bin/updatechecks'],
       zip_safe=False)
