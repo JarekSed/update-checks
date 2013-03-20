@@ -7,7 +7,7 @@ out_of_date =  updatechecks.programs.check_all_programs()
 message = ""
 for name, last_known_version, current_version in out_of_date:
     message += name + " appears to have a new release! Version " + current_version\
-        + " is newer than last known version " + last_known_version + "\n"
+        + " is newer than currente AUR version " + last_known_version + "\n"
 
 if message:
     updatechecks.mail.send_mail('jareksedlacek@gmail.com', 'updatechecks.jsedlacek.info', 'Program updates found!', message)
