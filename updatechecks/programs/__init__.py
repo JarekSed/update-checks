@@ -19,8 +19,6 @@ def check_all_programs():
     modules = get_all_modules()
     for module_name in modules:
         module = __import__("updatechecks.programs."+module_name,globals(),locals(), ['a'], -1)
-        print "impmorted" + module_name
-        print module
         current_version = module.get_version()
         if parse_version(current_version) > parse_version(module.get_last_known_version()):
             print module_name, "is out of date, newest version is", current_version
