@@ -27,8 +27,9 @@ def check_all_programs():
     for module_name in modules:
         module = __import__("updatechecks.programs."+module_name,globals(),locals(), ['a'], -1)
         current_version = module.get_version()
-        if parse_version(current_version) > get_aur_version(module_name):
-            out_of_date.append( (module_name, module.get_last_known_version(), current_version) )
+        last_known_version = get_aur_version(module_name)
+        if parse_version(current_version) > parse_version(last_known_version):
+            out_of_date.append( (module_name, last_known_version, current_version) )
     return out_of_date
 
 
