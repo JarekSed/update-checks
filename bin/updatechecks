@@ -1,7 +1,14 @@
 #!/usr/bin/python2.7
 import updatechecks.mail
 import updatechecks.programs
+import sys
 
+def verbose_flag_passed(argv):
+    """ Checks if --verbose was passed.
+        This is done with a simple check instead of using argparse or
+        something, since this program doesn't take any other arguments  and I'm
+        lazy"""
+    return len(argv) == 2 and ( argv[1] == '--verbose' or argv[1] == '-v')
 
 out_of_date =  updatechecks.programs.check_all_programs()
 message = ""
@@ -10,5 +17,11 @@ for name, last_known_version, current_version in out_of_date:
         + " is newer than current AUR version " +  last_known_version\
         + " https://aur.archlinux.org/packages/" + name +"\n\n"
 
-if message:
+if verbose_flag_passed(sys.argv):
+    if message:
+        print message
+    else:
+        print "no updates found"
+
+elif message:
     updatechecks.mail.send_mail('jareksedlacek@gmail.com', 'updatechecks.jsedlacek.info', 'Program updates found!', message)
