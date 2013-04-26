@@ -24,4 +24,4 @@ if verbose_flag_passed(sys.argv):
         print "no updates found"
 
 elif message:
-    updatechecks.mail.send_mail('jareksedlacek@gmail.com', 'updatechecks.jsedlacek.info', 'Program updates found!', message)
+    updatechecks.mail.send_mail('jareksedlacek@gmail.com', 'updatechecks', 'Program updates found!', message)
