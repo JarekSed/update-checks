@@ -60,7 +60,7 @@ func versionCompare(first string, second string) (int) {
 
 
     // If the strings have different # of pieces, we compare based on the # of pieces they both have
-    if len(first) != len(second) {
+    if len(firstFields) != len(secondFields) {
         length := min(len(firstFields), len(secondFields))
         // Re-join the sections into one string
         // We can just take a substring, because we want an equal number of sections, not an equal number of chars
