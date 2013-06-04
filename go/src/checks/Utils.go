@@ -12,9 +12,9 @@ import(
 )
 
 type OutOfDateProgram struct {
-    name string
-    aurVersion string
-    latestVersion string
+    Name string
+    AurVersion string
+    LatestVersion string
 }
 
 func min(first int, second int)(int){
