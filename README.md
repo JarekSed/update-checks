@@ -8,3 +8,5 @@ Basically just scrapes the release page for each program, and sends me an email 
 Slap this sucker in cron, and its package maintenance for dummies.
 
 Things are shitty and hard-coded, so you prolly don't want to use this without adding flags for email address and such.
+
+It was initially written in python, then I rewrote it in go (mostly because I wanted to play around with go. Because it is so IO bound, the go version is way faster, though)
