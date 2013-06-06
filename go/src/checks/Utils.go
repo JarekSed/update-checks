@@ -14,6 +14,7 @@ type OutOfDateProgram struct {
 	Name          string
 	AurVersion    string
 	LatestVersion string
+    OutOfDate     bool
 }
 
 func min(first int, second int) int {
@@ -28,25 +29,41 @@ func min(first int, second int) int {
 func GetOutOfDatePrograms() []OutOfDateProgram {
 	outOfDatePrograms := []OutOfDateProgram{}
 	programs := GetAllPrograms()
+    programChannel := make(chan OutOfDateProgram, len(programs))
+    // For every program we want to check...
 	for name, versionFunction := range programs {
-		// Get latest upstream version
-		latestVersion, err := versionFunction()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v gave error %v when getting latest version\n", name, err)
-			continue
-		}
-		// Get latest AUR version
-		aurVersion, err := GetAurVersion(name)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v gave error %v when getting AUR version\n", name, err)
-			continue
-		}
-		if versionCompare(latestVersion, aurVersion) != 0 {
-			outOfDate := OutOfDateProgram{name, aurVersion, latestVersion}
-			outOfDatePrograms = append(outOfDatePrograms, outOfDate)
+        // call a goroutine to check its version and AUR version, and determine if it is out of date
+        go func(name string, versionFunction func()(string, error)){
+            // Get latest upstream version
+            latestVersion, err := versionFunction()
+            if err != nil {
+                fmt.Fprintf(os.Stderr, "%v gave error %v when getting latest version\n", name, err)
+                programChannel <- OutOfDateProgram{"", "", "",false}
+                return
+            }
+            // Get latest AUR version
+            aurVersion, err := GetAurVersion(name)
+            if err != nil {
+                fmt.Fprintf(os.Stderr, "%v gave error %v when getting AUR version\n", name, err)
+                programChannel <- OutOfDateProgram{"", "", "", false}
+                return
+            }
+            if versionCompare(latestVersion, aurVersion) != 0 {
+                programChannel <- OutOfDateProgram{name, aurVersion, latestVersion, true}
+            } else {
+                programChannel <- OutOfDateProgram{"", "", "", false}
+            }
+        }(name, versionFunction)
+    }
+    //for _,_ := range programs {
+    for i := 0; i < len(programs); i++ {
+        program := <-programChannel
+        if program.OutOfDate {
+            outOfDatePrograms = append(outOfDatePrograms, program)
+        }
 
-		}
-	}
+    }
+
 	return outOfDatePrograms
 }
 
