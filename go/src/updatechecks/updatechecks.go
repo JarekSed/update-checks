@@ -23,7 +23,7 @@ func main() {
 		if !*quiet {
 			err := notify.SendMail(*toAddr, *fromAddr, *host+":"+*port, "Program updates found!", message)
 			if err != nil {
-				fmt.Fprintf(os.Stdout, "Error sending mail: %v\n", err)
+				fmt.Fprintf(os.Stderr, "Error sending mail: %v\n", err)
 			}
 		}
 	} else {
