@@ -3,6 +3,7 @@ package checks
 
 import (
 	"encoding/json"
+    "errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -121,6 +122,10 @@ func GetAurVersion(programName string) (string, error) {
 	var dataRaw interface{}
 	err = json.Unmarshal(body, &dataRaw)
 	data := dataRaw.(map[string]interface{})
+    resultcount := data["resultcount"].(float64)
+    if resultcount < 1 {
+        return "", errors.New("No results found")
+    }
 	version := data["results"].(map[string]interface{})["Version"].(string)
 	if err != nil {
 		return "", err
