@@ -37,14 +37,14 @@ func GetOutOfDatePrograms() []OutOfDateProgram {
 			// Get latest upstream version
 			latestVersion, err := versionFunction()
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%v gave error %v when getting latest version\n", name, err)
+				fmt.Fprintf(os.Stderr, "%v gave error '%v' when getting latest version\n", name, err)
 				programChannel <- OutOfDateProgram{"", "", "", false}
 				return
 			}
 			// Get latest AUR version
 			aurVersion, err := GetAurVersion(name)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%v gave error %v when getting AUR version\n", name, err)
+				fmt.Fprintf(os.Stderr, "%v gave error '%v' when getting AUR version\n", name, err)
 				programChannel <- OutOfDateProgram{"", "", "", false}
 				return
 			}
