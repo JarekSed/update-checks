@@ -14,7 +14,7 @@ func init() {
 	programs["3to2"] = Get3to2Version
 	programs["python-crontab"] = GetPythonCrontabVersion
 	programs["pymetar"] = GetPyMetarVersion
-	programs["php-mongo"] = GetPhpMongoVersion
+    // programs["php-mongo"] = GetPhpMongoVersion
 	programs["vim-blockcomment"] = GetVimBlockCommentVersion
 	programs["vim-commentop"] = GetVimCommentOpVersion
 	programs["vim-neocomplcache"] = GetVimNeoComplCacheVersion
